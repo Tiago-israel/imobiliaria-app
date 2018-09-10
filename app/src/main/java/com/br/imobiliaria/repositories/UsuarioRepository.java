@@ -34,6 +34,7 @@ public class UsuarioRepository extends BaseRepository<Usuario> {
                 ).list();
         return !usuarios.isEmpty();
     }
+	
 
     public static UsuarioRepository getInstance() {
         if (usuarioRepository == null) {

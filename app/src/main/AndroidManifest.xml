@@ -38,7 +38,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CadastroUsuarioActivity"></activity>
+        <activity android:name=".CadastroUsuarioActivity" />
+        <activity android:name=".CadastroImovelActivity"></activity>
     </application>
 
 </manifest>

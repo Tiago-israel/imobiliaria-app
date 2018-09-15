@@ -12,6 +12,7 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable{
     private String nome;
     private Double preco;
     private String bairro;
+    private Integer quartos;
     private String descricao;
     private List<Foto> fotos;
 
@@ -71,5 +72,13 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable{
 
     public void setFotos(List<Foto> fotos) {
         this.fotos = fotos;
+    }
+
+    public Integer getQuartos() {
+        return quartos;
+    }
+
+    public void setQuartos(Integer quartos) {
+        this.quartos = quartos;
     }
 }

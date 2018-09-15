@@ -30,7 +30,7 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
     }
 
     public void Filtrar(View view){
-        Filtro filtro = new Filtro(Integer.parseInt(quartos.getText().toString()),Integer.parseInt(valorEscolhido.getText().toString()),extrairTextoEditText(filtroLocalidade));
+        Filtro filtro = new Filtro(Integer.parseInt(quartos.getText().toString()),Double.parseDouble(valorEscolhido.getText().toString()),extrairTextoEditText(filtroLocalidade));
     }
 
     public void mostrarEsconderFiltro(View view) {

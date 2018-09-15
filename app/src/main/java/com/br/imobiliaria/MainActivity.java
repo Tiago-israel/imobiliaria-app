@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         for (Usuario usuario :users ){
             Toast.makeText(getApplicationContext(),usuario.getNome(),Toast.LENGTH_SHORT).show();
         }
-        startActivity(new Intent(this, CadastroClienteActivity.class));
+        startActivity(new Intent(this, LitagemImoveisActivity.class));
     }
 
 

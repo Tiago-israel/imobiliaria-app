@@ -34,7 +34,14 @@ public class UsuarioRepository extends BaseRepository<Usuario> {
                 ).list();
         return !usuarios.isEmpty();
     }
-	
+
+    public boolean verificarExistenciaGerentesBase(){
+        List<Usuario> usuarios = Select.from(Usuario.class)
+                .where(
+                        Condition.prop("is_admin").eq(1)
+                ).list();
+        return usuarios.isEmpty();
+    }
 
     public static UsuarioRepository getInstance() {
         if (usuarioRepository == null) {

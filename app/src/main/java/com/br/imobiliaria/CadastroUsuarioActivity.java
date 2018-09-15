@@ -18,7 +18,6 @@ import java.util.List;
 public class CadastroUsuarioActivity extends AppCompatActivity implements BaseActivity {
 
     private EditText nome, login, senha, confirmSenha;
-    private Switch admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +69,16 @@ public class CadastroUsuarioActivity extends AppCompatActivity implements BaseAc
         this.login = findViewById(R.id.cadUserLogin);
         this.senha = findViewById(R.id.cadUserSenha);
         this.confirmSenha = findViewById(R.id.cadUserConfirmSenha);
-        this.admin = findViewById(R.id.cadUserAdmin);
     }
 
     public void salvarUsuario(View view) {
         if (this.validarCamposObrigatorios() && this.validarSenhas()) {
             if (validarExistenciaLogin()) {
-                this.login.setError("Usuário "+extrairTextoEditText(login)+" já existe.");
+                this.login.setError("Vendedor "+extrairTextoEditText(login)+" já existe.");
             } else {
-                Usuario usuario = new Usuario(extrairTextoEditText(nome), extrairTextoEditText(login), extrairTextoEditText(senha), admin.isChecked() ? 1 : 0);
+                Usuario usuario = new Usuario(extrairTextoEditText(nome), extrairTextoEditText(login), extrairTextoEditText(senha),0);
                 UsuarioRepository.getInstance().save(usuario);
-                Toast.makeText(this, "Usuario cadastrado com sucesso", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Vendedor cadastrado com sucesso", Toast.LENGTH_LONG).show();
                 this.finish();
             }
         }

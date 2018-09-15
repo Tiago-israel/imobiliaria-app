@@ -8,7 +8,7 @@ public class Usuario extends SugarRecord<Usuario> implements Serializable{
     private String nome;
     private String login;
     private String senha;
-    private int isAdmin;
+    private Integer isAdmin;
 
     public Usuario() {
 
@@ -45,11 +45,11 @@ public class Usuario extends SugarRecord<Usuario> implements Serializable{
         this.senha = senha;
     }
 
-    public int isAdmin() {
+    public Integer getIsAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(int admin) {
-        isAdmin = admin;
+    public void setIsAdmin(Integer isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }

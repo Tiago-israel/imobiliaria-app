@@ -38,7 +38,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CadastroUsuarioActivity"></activity>
+        <activity android:name=".CadastroUsuarioActivity" />
+        <activity android:name=".LitagemImoveisActivity" />
+        <activity android:name=".CadastroClienteActivity"></activity>
     </application>
 
 </manifest>

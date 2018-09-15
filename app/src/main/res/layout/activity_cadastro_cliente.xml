@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroUsuarioActivity">
+    tools:context=".CadastroClienteActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,79 +19,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="84dp"
-            app:srcCompat="@drawable/user" />
-
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nome*"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/cadUserNome"
+            android:id="@+id/cadClienteNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login*"
+            android:text="Email*"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/cadUserLogin"
+            android:id="@+id/cadClienteEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textEmailAddress" />
 
         <TextView
-            android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Senha*"
+            android:text="Telefone*"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/cadUserSenha"
+            android:id="@+id/cadClienteTelefone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Confirmar senha*"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/cadUserConfirmSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+            android:inputType="phone" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#c0392b"
-            android:onClick="salvarUsuario"
-            android:text="SALVAR"
+            android:onClick="gravar"
+            android:text="gravar"
             android:textColor="@android:color/background_light" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

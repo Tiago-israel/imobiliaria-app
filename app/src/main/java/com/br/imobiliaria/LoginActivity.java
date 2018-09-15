@@ -44,10 +44,6 @@ public class LoginActivity extends AppCompatActivity implements BaseActivity {
         }
     }
 
-    public void novoUsuario(View view) {
-        startActivity(new Intent(this, CadastroUsuarioActivity.class));
-    }
-
     @Override
     public boolean validarCamposObrigatorios() {
         boolean ehValido = true;

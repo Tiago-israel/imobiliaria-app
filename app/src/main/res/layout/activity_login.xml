@@ -76,14 +76,6 @@
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="novoUsuario"
-            android:text="Cadastre-se"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_blue_dark" />
     </LinearLayout>
 
     <android.support.constraint.Barrier

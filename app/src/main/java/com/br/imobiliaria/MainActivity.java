@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Carga.criarCargaUsuariosGerente();
-        List<Usuario>users = UsuarioRepository.getInstance().findAll();
-        for (Usuario usuario :users ){
-            Toast.makeText(getApplicationContext(),usuario.getNome(),Toast.LENGTH_SHORT).show();
-        }
+//        List<Usuario>users = UsuarioRepository.getInstance().findAll();
+//        for (Usuario usuario :users ){
+//            Toast.makeText(getApplicationContext(),usuario.getNome(),Toast.LENGTH_SHORT).show();
+//        }
         startActivity(new Intent(this, LitagemImoveisActivity.class));
     }
 

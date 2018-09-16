@@ -22,7 +22,7 @@
         <LinearLayout
             android:id="@+id/layoutFiltro"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -140,6 +140,11 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/listImoveis"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

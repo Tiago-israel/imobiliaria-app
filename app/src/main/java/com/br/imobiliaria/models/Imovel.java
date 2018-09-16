@@ -1,12 +1,13 @@
 package com.br.imobiliaria.models;
 
 import java.util.List;
+
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
 
-public class Imovel extends SugarRecord<Imovel> implements Serializable{
-
+public class Imovel extends SugarRecord<Imovel> implements Serializable {
 
 
     private String nome;
@@ -14,22 +15,26 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable{
     private String bairro;
     private Integer quartos;
     private String descricao;
+
+    @Ignore
     private List<Foto> fotos;
 
     public Imovel() {
     }
 
-    public Imovel(String nome, Double preco, String bairro, String descricao) {
+    public Imovel(String nome, Double preco, String bairro, Integer quartos, String descricao) {
         this.nome = nome;
         this.preco = preco;
         this.bairro = bairro;
+        this.quartos = quartos;
         this.descricao = descricao;
     }
 
-    public Imovel(String nome, Double preco, String bairro, String descricao, List<Foto> fotos) {
+    public Imovel(String nome, Double preco, String bairro, Integer quartos, String descricao, List<Foto> fotos) {
         this.nome = nome;
         this.preco = preco;
         this.bairro = bairro;
+        this.quartos = quartos;
         this.descricao = descricao;
         this.fotos = fotos;
     }
@@ -80,5 +85,15 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable{
 
     public void setQuartos(Integer quartos) {
         this.quartos = quartos;
+    }
+
+    public Foto obterFotoPrincipal() {
+        Foto fotoPrincipal = new Foto();
+        for (Foto foto : this.fotos) {
+            if (foto.getIsMain() == 1) {
+                fotoPrincipal = foto;
+            }
+        }
+        return fotoPrincipal;
     }
 }

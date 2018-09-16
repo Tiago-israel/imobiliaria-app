@@ -5,11 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
+import com.br.imobiliaria.adapters.ListaImovelAdapter;
 import com.br.imobiliaria.models.Filtro;
+import com.br.imobiliaria.models.Foto;
+import com.br.imobiliaria.models.Imovel;
+import com.br.imobiliaria.repositories.FotoRepository;
+import com.br.imobiliaria.repositories.ImovelRepository;
+
+import java.util.List;
 
 public class LitagemImoveisActivity extends AppCompatActivity implements BaseActivity {
 
@@ -17,6 +25,7 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
     private TextView quartos, valorEscolhido;
     private SeekBar preco;
     private EditText filtroLocalidade;
+    private ListView listViewImoveis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +36,7 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
         this.configurarLayoutFiltro();
         this.preco.setMax(200000);
         this.seekBarListener();
+        this.configurarListView();
     }
 
     public void Filtrar(View view){
@@ -87,6 +97,7 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
         this.valorEscolhido = findViewById(R.id.valorEscolhido);
         this.preco = findViewById(R.id.seekBarPreco);
         this.filtroLocalidade = findViewById(R.id.filtroLocalidade);
+        this.listViewImoveis = findViewById(R.id.listImoveis);
     }
 
     @Override
@@ -107,5 +118,14 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
     @Override
     public String extrairTextoEditText(EditText campo) {
         return campo.getText().toString().trim();
+    }
+
+    private void configurarListView() {
+        List<Imovel>imoveis = ImovelRepository.getInstance().findAll();
+        for (Imovel imovel:imoveis){
+            imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
+        }
+        ListaImovelAdapter  listaImovelAdapter = new ListaImovelAdapter(this, imoveis);
+        this.listViewImoveis.setAdapter(listaImovelAdapter);
     }
 }

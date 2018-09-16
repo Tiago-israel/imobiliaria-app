@@ -1,9 +1,14 @@
 package com.br.imobiliaria.models;
 
-public class Foto {
+import com.orm.SugarRecord;
+
+import java.io.Serializable;
+
+public class Foto extends SugarRecord<Foto> implements Serializable{
 
     private byte[] arquivo;
-    private int isMain;
+    private int isMain = 0;
+    private Imovel imovel;
 
     public Foto() {
     }
@@ -23,4 +28,13 @@ public class Foto {
     public void setIsMain(int isMain) {
         this.isMain = isMain;
     }
+
+    public Imovel getImovel() {
+        return imovel;
+    }
+
+    public void setImovel(Imovel imovel) {
+        this.imovel = imovel;
+    }
+
 }

@@ -6,18 +6,18 @@ import java.io.Serializable;
 
 public class Foto extends SugarRecord<Foto> implements Serializable{
 
-    private byte[] arquivo;
+    private String arquivo;
     private int isMain = 0;
     private Imovel imovel;
 
     public Foto() {
     }
 
-    public byte[] getArquivo() {
+    public String getArquivo() {
         return arquivo;
     }
 
-    public void setArquivo(byte[] arquivo) {
+    public void setArquivo(String arquivo) {
         this.arquivo = arquivo;
     }
 

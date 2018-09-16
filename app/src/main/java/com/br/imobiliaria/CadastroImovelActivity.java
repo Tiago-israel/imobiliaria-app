@@ -106,8 +106,6 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
                     foto.setArquivo(TratamentoImagem.converterBitMapToArrayBytes(bitmap));
                     this.fotos.add(foto);
                 }
-
-
             }
         }
     }

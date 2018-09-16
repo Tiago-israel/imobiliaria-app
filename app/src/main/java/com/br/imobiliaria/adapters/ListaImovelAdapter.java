@@ -53,7 +53,7 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
 
     private void carregarLabels(Imovel imovel) {
         this.nome.setText(imovel.getNome());
-        this.bairro.setText(imovel.getBairro());
+        this.bairro.setText("Localização: "+imovel.getBairro());
         this.valor.setText("R$ " + String.valueOf(imovel.getPreco()));
         this.capa.setImageBitmap(TratamentoImagem.convertArrayBytesToBitMapImage(imovel.obterFotoPrincipal().getArquivo()));
     }

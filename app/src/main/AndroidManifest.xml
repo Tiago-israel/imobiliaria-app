@@ -44,7 +44,7 @@
         <activity android:name=".CadastroUsuarioActivity" />
         <activity android:name=".LitagemImoveisActivity" />
         <activity android:name=".CadastroClienteActivity"></activity>
-        <activity android:name=".CadastroImovelActivity"></activity>
+        <activity android:name=".CadastroImovelActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

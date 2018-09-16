@@ -26,12 +26,20 @@
             android:text="Apartamento"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/listAdImage"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="teste"
-            app:srcCompat="@drawable/picture" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/listAdImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:contentDescription="teste"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/picture" />
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"

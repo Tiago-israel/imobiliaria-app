@@ -1,6 +1,8 @@
 package com.br.imobiliaria;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import com.br.imobiliaria.Interfaces.BaseActivity;
 import com.br.imobiliaria.constants.RequestCode;
 import com.br.imobiliaria.models.Usuario;
 import com.br.imobiliaria.repositories.UsuarioRepository;
+import com.br.imobiliaria.utils.GerenciadorPreferencias;
 
 public class LoginActivity extends AppCompatActivity implements BaseActivity {
 
@@ -35,9 +38,11 @@ public class LoginActivity extends AppCompatActivity implements BaseActivity {
         if (this.validarCamposObrigatorios()) {
             Usuario usuario = UsuarioRepository.getInstance().login(extrairTextoEditText(login), extrairTextoEditText(senha));
             if (usuario != null) {
-                Intent intent = new Intent(this,MainActivity.class);
-                intent.putExtra("UsuarioLogado",usuario);
-                startActivityForResult(intent, RequestCode.USUARIO_AUTENTICADO);
+                this.configurarTextos();
+                GerenciadorPreferencias.salvarDadosUsuarioSharedPreference(usuario,this);
+                Intent intent = new Intent(this, ListagemImoveisActivity.class);
+                intent.putExtra("UsuarioLogado", usuario);
+                startActivityForResult(intent, RequestCode.LOGIN);
             } else {
                 this.loginSenhaIncorreto.setVisibility(View.VISIBLE);
             }
@@ -83,4 +88,6 @@ public class LoginActivity extends AppCompatActivity implements BaseActivity {
     private void configurarTextos() {
         this.loginSenhaIncorreto.setVisibility(View.GONE);
     }
+
+
 }

@@ -1,15 +1,15 @@
 package com.br.imobiliaria;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.br.imobiliaria.models.Usuario;
-import com.br.imobiliaria.repositories.UsuarioRepository;
+import com.br.imobiliaria.constants.RequestCode;
 import com.br.imobiliaria.utils.Carga;
-
-import java.util.List;
+import com.br.imobiliaria.utils.GerenciadorPreferencias;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,12 +18,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Carga.criarCargaUsuariosGerente();
-//        List<Usuario>users = UsuarioRepository.getInstance().findAll();
-//        for (Usuario usuario :users ){
-//            Toast.makeText(getApplicationContext(),usuario.getNome(),Toast.LENGTH_SHORT).show();
-//        }
-        //startActivity(new Intent(this, CadastroImovelActivity.class));
-        startActivity(new Intent(this, LitagemImoveisActivity.class));
+        Intent intent;
+        if (GerenciadorPreferencias.usuarioLogado(this)) {
+            intent = new Intent(this, ListagemImoveisActivity.class);
+        } else {
+            intent = new Intent(this, LoginActivity.class);
+        }
+        startActivityForResult(intent, RequestCode.MAIN);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCode.MAIN) {
+            finish();
+        }
     }
 
 

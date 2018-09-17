@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
+import com.br.imobiliaria.constants.ResultCode;
 import com.br.imobiliaria.models.Foto;
 import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.repositories.FotoRepository;
@@ -30,11 +31,11 @@ import java.util.List;
 
 public class CadastroImovelActivity extends AppCompatActivity implements BaseActivity {
 
-    private EditText nome, preco, bairro, descricao,quartos;
+    private EditText nome, preco, bairro, descricao, quartos;
     private ImageView foto1, foto2, foto3, foto4;
     private List<Foto> fotos = new ArrayList<>();
     private final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
-    private boolean isFoto1 = false,isFoto2 = false,isFoto3 = false,isFoto4 = false;
+    private boolean isFoto1 = false, isFoto2 = false, isFoto3 = false, isFoto4 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,15 +92,15 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     Foto foto = new Foto();
-                    if(isFoto1){
+                    if (isFoto1) {
                         foto.setIsMain(1);
-                        carregarImagemTela(data,foto1);
-                    }else if(isFoto2){
-                        carregarImagemTela(data,foto2);
-                    }else if(isFoto3){
-                        carregarImagemTela(data,foto3);
-                    }else if(isFoto4){
-                        carregarImagemTela(data,foto4);
+                        carregarImagemTela(data, foto1);
+                    } else if (isFoto2) {
+                        carregarImagemTela(data, foto2);
+                    } else if (isFoto3) {
+                        carregarImagemTela(data, foto3);
+                    } else if (isFoto4) {
+                        carregarImagemTela(data, foto4);
                     }
                     Bundle bundle = data.getExtras();
                     Bitmap bitmap = (Bitmap) bundle.get("data");
@@ -135,7 +136,7 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
             this.escreverMensagemValidacao(this.bairro, "bairro");
             ehValido = false;
         }
-        if(this.verificarCampoVazio(this.quartos)){
+        if (this.verificarCampoVazio(this.quartos)) {
             this.escreverMensagemValidacao(this.quartos, "Quantidade de quartos");
             ehValido = false;
         }
@@ -170,24 +171,21 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
     }
 
     public void salvarImovel(View view) {
-        if (this.validarCamposObrigatorios()) {
-            Imovel imovel = new Imovel(extrairTextoEditText(nome), Double.parseDouble(extrairTextoEditText(preco)), extrairTextoEditText(bairro),Integer.parseInt(extrairTextoEditText(quartos)) ,extrairTextoEditText(descricao));
-            ImovelRepository.getInstance().save(imovel);
+        try {
+            if (this.validarCamposObrigatorios()) {
+                Imovel imovel = new Imovel(extrairTextoEditText(nome), Double.parseDouble(extrairTextoEditText(preco)), extrairTextoEditText(bairro), Integer.parseInt(extrairTextoEditText(quartos)), extrairTextoEditText(descricao));
+                ImovelRepository.getInstance().save(imovel);
 
-            for(Foto foto : this.fotos){
-                foto.setImovel(imovel);
-                FotoRepository.getInstance().save(foto);
+                for (Foto foto : this.fotos) {
+                    foto.setImovel(imovel);
+                    FotoRepository.getInstance().save(foto);
+                }
+                Toast.makeText(this, "Imóvel salvo com sucesso!", Toast.LENGTH_SHORT).show();
+                setResult(ResultCode.IMOVEL_CADASTRADO_SUCESSO);
+                this.finish();
             }
-            Intent intent = new Intent(this,LitagemImoveisActivity.class);
-            startActivityForResult(intent,2);
-
-//            Toast.makeText(this, "Imovel cadastrado com sucesso ", Toast.LENGTH_LONG).show();
-//            List<Imovel> listaImovel = Imovel.listAll(Imovel.class);
-//            for (Imovel imovelx : listaImovel) {
-//                Toast.makeText(this, "-" + imovelx.getNome(), Toast.LENGTH_LONG).show();
-//            }
-            //this.finish();
-
+        } catch (Exception ex) {
+            Toast.makeText(this, "Ocorreu um erro inesperado! tente novamente", Toast.LENGTH_SHORT).show();
         }
     }
 }

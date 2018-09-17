@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuNovoImovel"
+        android:title="Novo imóvel" />
+    <item
+        android:id="@+id/menuNovoVendedor"
+        android:title="Cadastro vendedor" />
+    <item
+        android:id="@+id/menuCadastrarTaxa"
+        android:title="Cadastrar taxas" />
+    <item
+        android:id="@+id/menuSair"
+        android:title="Sair" />
+</menu>

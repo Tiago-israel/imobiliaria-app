@@ -1,5 +1,6 @@
 package com.br.imobiliaria.repositories;
 
+import com.br.imobiliaria.constants.CodigosUsuario;
 import com.br.imobiliaria.models.Usuario;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -38,7 +39,7 @@ public class UsuarioRepository extends BaseRepository<Usuario> {
     public boolean verificarExistenciaGerentesBase(){
         List<Usuario> usuarios = Select.from(Usuario.class)
                 .where(
-                        Condition.prop("is_admin").eq(1)
+                        Condition.prop("is_admin").eq(CodigosUsuario.GERENTE)
                 ).list();
         return usuarios.isEmpty();
     }

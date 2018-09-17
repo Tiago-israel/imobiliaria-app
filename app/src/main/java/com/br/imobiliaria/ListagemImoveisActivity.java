@@ -1,7 +1,14 @@
 package com.br.imobiliaria;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.opengl.Visibility;
+import android.provider.FontsContract;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -11,21 +18,26 @@ import android.widget.TextView;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
 import com.br.imobiliaria.adapters.ListaImovelAdapter;
+import com.br.imobiliaria.constants.ResultCode;
 import com.br.imobiliaria.models.Filtro;
 import com.br.imobiliaria.models.Foto;
 import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.repositories.FotoRepository;
 import com.br.imobiliaria.repositories.ImovelRepository;
+import com.br.imobiliaria.utils.GerenciadorPreferencias;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class LitagemImoveisActivity extends AppCompatActivity implements BaseActivity {
+public class ListagemImoveisActivity extends AppCompatActivity implements BaseActivity {
 
     private LinearLayout layoutFiltro;
     private TextView quartos, valorEscolhido;
     private SeekBar preco;
     private EditText filtroLocalidade;
     private ListView listViewImoveis;
+    //menu itens
+    private MenuItem novoImovel, novoVendedor, cadastrarTaxas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +46,16 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
         this.binding();
         this.quartos.setText("1");
         this.configurarLayoutFiltro();
-        this.preco.setMax(200000);
+        this.preco.setMax(1000000);
         this.seekBarListener();
-        this.configurarListView();
+        this.valorEscolhido.setText("0");
+        this.configurarListView(new ArrayList<Imovel>());
     }
 
-    public void Filtrar(View view){
-        Filtro filtro = new Filtro(Integer.parseInt(quartos.getText().toString()),Double.parseDouble(valorEscolhido.getText().toString()),extrairTextoEditText(filtroLocalidade));
+    public void Filtrar(View view) {
+        Filtro filtro = new Filtro(Integer.parseInt(quartos.getText().toString()), Double.parseDouble(valorEscolhido.getText().toString()), extrairTextoEditText(filtroLocalidade));
+        List<Imovel> imovels = ImovelRepository.getInstance().filtrarImoveis(filtro);
+        this.configurarListView(imovels);
     }
 
     public void mostrarEsconderFiltro(View view) {
@@ -91,6 +106,49 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        this.novoImovel = menu.findItem(R.id.menuNovoImovel);
+        this.novoVendedor = menu.findItem(R.id.menuNovoVendedor);
+        this.cadastrarTaxas = menu.findItem(R.id.menuCadastrarTaxa);
+        this.configurarMenuUsuario();
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuNovoImovel:
+                this.navegarParaActivity(CadastroImovelActivity.class, 1);
+                break;
+            case R.id.menuNovoVendedor:
+                this.navegarParaActivity(CadastroUsuarioActivity.class, 2);
+                break;
+            case R.id.menuCadastrarTaxa:
+                break;
+            case R.id.menuSair:
+                GerenciadorPreferencias.limparUsuario(this);
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case ResultCode.IMOVEL_CADASTRADO_SUCESSO:
+                this.configurarListView(new ArrayList<Imovel>());
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void binding() {
         this.layoutFiltro = findViewById(R.id.layoutFiltro);
         this.quartos = findViewById(R.id.textQuartos);
@@ -120,12 +178,27 @@ public class LitagemImoveisActivity extends AppCompatActivity implements BaseAct
         return campo.getText().toString().trim();
     }
 
-    private void configurarListView() {
-        List<Imovel>imoveis = ImovelRepository.getInstance().findAll();
-        for (Imovel imovel:imoveis){
+    private void configurarListView(List<Imovel> imoveis) {
+        if (imoveis.size() == 0) {
+            imoveis = ImovelRepository.getInstance().findAll();
+        }
+        for (Imovel imovel : imoveis) {
             imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
         }
-        ListaImovelAdapter  listaImovelAdapter = new ListaImovelAdapter(this, imoveis);
+        ListaImovelAdapter listaImovelAdapter = new ListaImovelAdapter(this, imoveis);
         this.listViewImoveis.setAdapter(listaImovelAdapter);
+    }
+
+    private void navegarParaActivity(Class clazz, int requestCode) {
+        Intent intent = new Intent(this, clazz);
+        startActivityForResult(intent, requestCode);
+    }
+
+    private void configurarMenuUsuario() {
+        if (!GerenciadorPreferencias.isAdmin(this)) {
+            this.novoImovel.setVisible(false);
+            this.novoVendedor.setVisible(false);
+            cadastrarTaxas.setVisible(false);
+        }
     }
 }

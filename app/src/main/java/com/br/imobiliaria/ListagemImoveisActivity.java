@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
 import com.br.imobiliaria.adapters.ListaImovelAdapter;
+import com.br.imobiliaria.constants.RequestCode;
 import com.br.imobiliaria.constants.ResultCode;
 import com.br.imobiliaria.models.Filtro;
 import com.br.imobiliaria.models.Foto;
@@ -119,10 +120,10 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuNovoImovel:
-                this.navegarParaActivity(CadastroImovelActivity.class, 1);
+                this.navegarParaActivity(CadastroImovelActivity.class, RequestCode.CAD_IMOVEL);
                 break;
             case R.id.menuNovoVendedor:
-                this.navegarParaActivity(CadastroUsuarioActivity.class, 2);
+                this.navegarParaActivity(CadastroUsuarioActivity.class, RequestCode.CAD_VENDEDOR);
                 break;
             case R.id.menuCadastrarTaxa:
                 break;

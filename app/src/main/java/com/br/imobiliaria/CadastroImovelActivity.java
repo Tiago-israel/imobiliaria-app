@@ -71,27 +71,12 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
-    private void adicionarImagemListaFotos(int index, Foto foto) {
-        try {
-            if (this.fotos.get(index) != null) {
-                this.fotos.remove(index);
-                this.fotos.add(index, foto);
-            }
-        } catch (Exception ex) {
-            this.fotos.add(index, foto);
-        }
-    }
-
-    private void carregarImagemTela(ImageView imageView, Bitmap imagem) {
-        imageView.setImageBitmap(imagem);
-    }
-
     private void tratarFluxoImagens(Intent data) {
         if (data != null) {
-            Foto foto = new Foto();
             Bundle bundle = data.getExtras();
             Bitmap imagem = (Bitmap) bundle.get("data");
-            foto.setArquivo(TratamentoImagem.converterBitMapToArrayBytes(imagem));
+            Foto foto = new Foto();
+            foto.setArquivo(TratamentoImagem.converterBitMapToBase64(imagem));
             if (isFoto1) {
                 foto.setIsMain(1);
                 this.adicionarImagemListaFotos(0, foto);
@@ -107,6 +92,21 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
                 carregarImagemTela(foto4, imagem);
             }
         }
+    }
+
+    private void adicionarImagemListaFotos(int index, Foto foto) {
+        try {
+            if (this.fotos.get(index) != null) {
+                this.fotos.remove(index);
+                this.fotos.add(index, foto);
+            }
+        } catch (Exception ex) {
+            this.fotos.add(index, foto);
+        }
+    }
+
+    private void carregarImagemTela(ImageView imageView, Bitmap imagem) {
+        imageView.setImageBitmap(imagem);
     }
 
     //fim tratamento imagens

@@ -11,7 +11,7 @@ import java.io.InputStream;
 
 public class TratamentoImagem {
 
-    public static String converterBitMapToArrayBytes(Bitmap bitmap) {
+    public static String converterBitMapToBase64(Bitmap bitmap) {
        if(bitmap != null){
            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);

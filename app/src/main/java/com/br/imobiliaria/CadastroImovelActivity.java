@@ -33,7 +33,7 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
 
     private EditText nome, preco, bairro, descricao, quartos;
     private ImageView foto1, foto2, foto3, foto4;
-    private List<Foto> fotos = new ArrayList<>();
+    private List<Foto> fotos = new ArrayList<>(4);
     private final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
     private boolean isFoto1 = false, isFoto2 = false, isFoto3 = false, isFoto4 = false;
 
@@ -44,70 +44,77 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
         this.binding();
     }
 
+    //Tratamento das imagens
+
     public void tirarFoto1(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        this.isFoto1 = true;
-        this.isFoto2 = false;
-        this.isFoto3 = false;
-        this.isFoto4 = false;
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        this.setarEstadoFotoAtual(true, false, false, false);
     }
 
     public void tirarFoto2(View view) {
-        this.isFoto1 = false;
-        this.isFoto2 = true;
-        this.isFoto3 = false;
-        this.isFoto4 = false;
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        this.setarEstadoFotoAtual(false, true, false, false);
     }
 
     public void tirarFoto3(View view) {
-        this.isFoto1 = false;
-        this.isFoto2 = false;
-        this.isFoto3 = true;
-        this.isFoto4 = false;
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        this.setarEstadoFotoAtual(false, false, true, false);
     }
 
     public void tirarFoto4(View view) {
-        this.isFoto1 = false;
-        this.isFoto2 = false;
-        this.isFoto3 = false;
-        this.isFoto4 = true;
+        this.setarEstadoFotoAtual(false, false, false, true);
+    }
+
+    private void setarEstadoFotoAtual(boolean isFoto1, boolean isFoto2, boolean isFoto3, boolean isFoto4) {
+        this.isFoto1 = isFoto1;
+        this.isFoto2 = isFoto2;
+        this.isFoto3 = isFoto3;
+        this.isFoto4 = isFoto4;
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
-    private void carregarImagemTela(Intent data, ImageView imageView) {
-        Bundle bundle = data.getExtras();
-        Bitmap bitmap = (Bitmap) bundle.get("data");
-        imageView.setImageBitmap(bitmap);
+    private void adicionarImagemListaFotos(int index, Foto foto) {
+        try {
+            if (this.fotos.get(index) != null) {
+                this.fotos.remove(index);
+                this.fotos.add(index, foto);
+            }
+        } catch (Exception ex) {
+            this.fotos.add(index, foto);
+        }
     }
+
+    private void carregarImagemTela(ImageView imageView, Bitmap imagem) {
+        imageView.setImageBitmap(imagem);
+    }
+
+    private void tratarFluxoImagens(Intent data) {
+        if (data != null) {
+            Foto foto = new Foto();
+            Bundle bundle = data.getExtras();
+            Bitmap imagem = (Bitmap) bundle.get("data");
+            foto.setArquivo(TratamentoImagem.converterBitMapToArrayBytes(imagem));
+            if (isFoto1) {
+                foto.setIsMain(1);
+                this.adicionarImagemListaFotos(0, foto);
+                carregarImagemTela(foto1, imagem);
+            } else if (isFoto2) {
+                this.adicionarImagemListaFotos(1, foto);
+                carregarImagemTela(foto2, imagem);
+            } else if (isFoto3) {
+                this.adicionarImagemListaFotos(2, foto);
+                carregarImagemTela(foto3, imagem);
+            } else if (isFoto4) {
+                this.adicionarImagemListaFotos(3, foto);
+                carregarImagemTela(foto4, imagem);
+            }
+        }
+    }
+
+    //fim tratamento imagens
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                if (data != null) {
-                    Foto foto = new Foto();
-                    if (isFoto1) {
-                        foto.setIsMain(1);
-                        carregarImagemTela(data, foto1);
-                    } else if (isFoto2) {
-                        carregarImagemTela(data, foto2);
-                    } else if (isFoto3) {
-                        carregarImagemTela(data, foto3);
-                    } else if (isFoto4) {
-                        carregarImagemTela(data, foto4);
-                    }
-                    Bundle bundle = data.getExtras();
-                    Bitmap bitmap = (Bitmap) bundle.get("data");
-                    foto.setArquivo(TratamentoImagem.converterBitMapToArrayBytes(bitmap));
-                    this.fotos.add(foto);
-                }
-            }
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            this.tratarFluxoImagens(data);
         }
     }
 
@@ -161,21 +168,16 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
         this.foto4 = findViewById(R.id.foto4);
     }
 
-    private void criarImovel(List<Foto> fotos) {
-        Imovel imovel = new Imovel("Casa", 10000.0, "São pedro", 2, "2 banheiros", fotos);
-        imovel.save();
-        for (Foto foto : fotos) {
-            foto.setImovel(imovel);
-            foto.save();
-        }
+    private Double tratarValorComMascara(String valor) {
+        String valorStr = valor.replace(".", "").replace(",", ".");
+        return Double.parseDouble(valorStr);
     }
 
     public void salvarImovel(View view) {
         try {
             if (this.validarCamposObrigatorios()) {
-                Imovel imovel = new Imovel(extrairTextoEditText(nome), Double.parseDouble(extrairTextoEditText(preco)), extrairTextoEditText(bairro), Integer.parseInt(extrairTextoEditText(quartos)), extrairTextoEditText(descricao));
+                Imovel imovel = new Imovel(extrairTextoEditText(nome), tratarValorComMascara(extrairTextoEditText(preco)), extrairTextoEditText(bairro), Integer.parseInt(extrairTextoEditText(quartos)), extrairTextoEditText(descricao));
                 ImovelRepository.getInstance().save(imovel);
-
                 for (Foto foto : this.fotos) {
                     foto.setImovel(imovel);
                     FotoRepository.getInstance().save(foto);

@@ -45,12 +45,13 @@
                 android:text="Preço*"
                 android:textStyle="bold" />
 
-            <EditText
+            <faranjit.currency.edittext.CurrencyEditText
                 android:id="@+id/cadPreco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:textColor="@android:color/black"
+                app:locale="pt_BR" />
 
             <TextView
                 android:id="@+id/textView11"

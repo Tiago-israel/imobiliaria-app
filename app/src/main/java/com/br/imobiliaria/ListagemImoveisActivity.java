@@ -130,6 +130,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
                 this.navegarParaActivity(ListagemClientesActivity.class, RequestCode.LST_CLIENTE);
                 break;
             case R.id.menuCadastrarTaxa:
+                this.navegarParaActivity(CadastroTaxaActivity.class, RequestCode.CAD_TAXAS);
                 break;
             case R.id.menuSair:
                 GerenciadorPreferencias.limparUsuario(this);

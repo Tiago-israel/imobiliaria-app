@@ -26,9 +26,8 @@ public class CadastroTaxaActivity extends AppCompatActivity implements BaseActiv
     }
 
     private void buscarTaxaCadastrada() {
-        List<Taxa> taxas = TaxaRepository.getInstance().findAll();
-        if (!taxas.isEmpty()) {
-            this.taxa = taxas.get(0);
+        this.taxa = TaxaRepository.getInstance().buscarTaxaCadastrada();
+        if (this.taxa != null) {
             this.taxaAteCemMil.setText(String.valueOf(this.taxa.getTaxaAteCemMil()));
             this.taxaAteQuinhentosMil.setText(String.valueOf(this.taxa.getTaxaAteQuinhentosMil()));
             this.taxaAcimaQuinhentosMil.setText(String.valueOf(this.taxa.getTaxaAcimaQuinhentosMil()));

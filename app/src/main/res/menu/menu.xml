@@ -11,6 +11,9 @@
         android:id="@+id/menuCadastrarTaxa"
         android:title="Cadastrar taxas" />
     <item
+        android:id="@+id/menuListarCliente"
+        android:title="Clientes" />
+    <item
         android:id="@+id/menuSair"
         android:title="Sair" />
 </menu>

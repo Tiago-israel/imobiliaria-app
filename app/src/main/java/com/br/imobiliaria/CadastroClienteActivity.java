@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
 import com.br.imobiliaria.models.Cliente;
@@ -64,6 +65,9 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
         if(this.validarCamposObrigatorios()){
             Cliente cliente = new Cliente(this.extrairTextoEditText(this.nome),this.extrairTextoEditText(this.email),this.extrairTextoEditText(this.telefone));
             ClienteRepository.getInstance().save(cliente);
+            this.finish();
+        }else{
+            Toast.makeText(this, "ERRO", Toast.LENGTH_SHORT).show();
         }
     }
 }

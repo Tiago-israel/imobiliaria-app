@@ -5,5 +5,6 @@ public class RequestCode {
     public static final int MAIN = 2;
     public static final int CAD_IMOVEL = 3;
     public static final int CAD_VENDEDOR = 4;
+    public static final int LST_CLIENTE = 5;
 
 }

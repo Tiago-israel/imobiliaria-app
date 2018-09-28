@@ -24,6 +24,7 @@ public class Cliente extends SugarRecord<Cliente> implements Serializable{
         return nome;
     }
 
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -43,4 +44,14 @@ public class Cliente extends SugarRecord<Cliente> implements Serializable{
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+    @Override
+    public String toString() {
+        return
+                "nome: '" + nome + '\'' +
+                ", email: '" + email + '\'' +
+                ", telefone: '" + telefone + '\'';
+    }
+
+
 }

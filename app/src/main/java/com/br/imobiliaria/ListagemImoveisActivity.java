@@ -38,7 +38,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
     private EditText filtroLocalidade;
     private ListView listViewImoveis;
     //menu itens
-    private MenuItem novoImovel, novoVendedor, cadastrarTaxas;
+    private MenuItem novoImovel, novoVendedor, cadastrarTaxas, listarCliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +112,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         this.novoImovel = menu.findItem(R.id.menuNovoImovel);
         this.novoVendedor = menu.findItem(R.id.menuNovoVendedor);
         this.cadastrarTaxas = menu.findItem(R.id.menuCadastrarTaxa);
+        this.listarCliente = menu.findItem(R.id.menuListarCliente);
         this.configurarMenuUsuario();
         return super.onCreateOptionsMenu(menu);
     }
@@ -124,6 +125,9 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
                 break;
             case R.id.menuNovoVendedor:
                 this.navegarParaActivity(CadastroUsuarioActivity.class, RequestCode.CAD_VENDEDOR);
+                break;
+            case R.id.menuListarCliente:
+                this.navegarParaActivity(ListagemClientesActivity.class, RequestCode.LST_CLIENTE);
                 break;
             case R.id.menuCadastrarTaxa:
                 break;

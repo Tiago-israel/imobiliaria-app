@@ -49,6 +49,7 @@
         <activity
             android:name=".CadastroImovelActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ListagemClientesActivity"></activity>
     </application>
 
 </manifest>

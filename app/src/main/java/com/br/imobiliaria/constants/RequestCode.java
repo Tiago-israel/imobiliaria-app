@@ -8,5 +8,6 @@ public class RequestCode {
     public static final int LST_CLIENTE = 5;
     public static final int CAD_TAXAS = 6;
     public static final int FINANCIAMENTO = 7;
-
+    public static final int CAD_CLIENTE = 8;
+    public static  final int DETALHES_IMOVEL_CLIENTE = 9;
 }

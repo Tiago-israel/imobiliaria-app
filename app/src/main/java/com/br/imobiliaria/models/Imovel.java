@@ -2,6 +2,7 @@ package com.br.imobiliaria.models;
 
 import java.util.List;
 
+import com.br.imobiliaria.utils.CalculoValorImovel;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
@@ -16,6 +17,7 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable {
     private String bairro;
     private Integer quartos;
     private String descricao;
+    private int financiado = 0;
 
     @Ignore
     private List<Foto> fotos;
@@ -53,7 +55,7 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable {
     }
 
     public void setPreco(Double preco) {
-        this.preco = preco;
+        this.preco = CalculoValorImovel.calcular(preco);
     }
 
     public String getBairro() {
@@ -104,5 +106,13 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable {
             }
         }
         return fotoPrincipal;
+    }
+
+    public int getFinanciado() {
+        return financiado;
+    }
+
+    public void setFinanciado(int financiado) {
+        this.financiado = financiado;
     }
 }

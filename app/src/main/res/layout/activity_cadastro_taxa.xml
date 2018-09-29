@@ -69,5 +69,18 @@
             android:onClick="gravarTaxas"
             android:text="GRAVAR"
             android:textColor="@android:color/background_light" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_green_light"
+            android:onClick="aplicarTaxasNosImoveis"
+            android:text="Aplicar taxas nos imóveis"
+            android:textColor="@android:color/background_light" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

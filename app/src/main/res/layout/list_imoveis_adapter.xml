@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Apartamento"
+            android:textColor="@android:color/background_dark"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -56,24 +57,20 @@
                 android:layout_width="119dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="R$ 1.000.000" />
+                android:text="R$ 1.000.000"
+                android:textColor="@android:color/background_dark"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/listAdBairro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Bairro: São Mateus" />
+                android:text="Bairro: São Mateus"
+                android:textColor="@android:color/background_dark"
+                android:textStyle="bold" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/listAdDetalhes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Detalhes"
-            android:textColor="@android:color/holo_blue_bright"
-            android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"

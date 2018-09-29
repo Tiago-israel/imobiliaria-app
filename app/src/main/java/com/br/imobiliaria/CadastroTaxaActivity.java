@@ -7,8 +7,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
+import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.models.Taxa;
+import com.br.imobiliaria.repositories.ImovelRepository;
 import com.br.imobiliaria.repositories.TaxaRepository;
+import com.br.imobiliaria.utils.CalculoValorImovel;
 
 import java.util.List;
 
@@ -44,10 +47,18 @@ public class CadastroTaxaActivity extends AppCompatActivity implements BaseActiv
         }
     }
 
+    public void aplicarTaxasNosImoveis(View view) {
+        List<Imovel> imovels = ImovelRepository.getInstance().findAll();
+        for (Imovel imovel : imovels) {
+            imovel.setPreco(CalculoValorImovel.calcular(imovel.getPreco()));
+            ImovelRepository.getInstance().save(imovel);
+        }
+    }
+
     private void novaTaxa() {
         this.taxa = new Taxa(Double.parseDouble(extrairTextoEditText(taxaAteCemMil)), Double.parseDouble(extrairTextoEditText(taxaAteQuinhentosMil)), Double.parseDouble(extrairTextoEditText(taxaAcimaQuinhentosMil)));
         TaxaRepository.getInstance().save(this.taxa);
-        Toast.makeText(this,"Taxas cadastradas com sucesso!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Taxas cadastradas com sucesso!", Toast.LENGTH_SHORT).show();
     }
 
     private void atualizarTaxa() {
@@ -55,7 +66,7 @@ public class CadastroTaxaActivity extends AppCompatActivity implements BaseActiv
         this.taxa.setTaxaAteQuinhentosMil(Double.parseDouble(extrairTextoEditText(taxaAteQuinhentosMil)));
         this.taxa.setTaxaAcimaQuinhentosMil(Double.parseDouble(extrairTextoEditText(taxaAcimaQuinhentosMil)));
         TaxaRepository.getInstance().save(this.taxa);
-        Toast.makeText(this,"Taxas editadas com sucesso!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Taxas editadas com sucesso!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

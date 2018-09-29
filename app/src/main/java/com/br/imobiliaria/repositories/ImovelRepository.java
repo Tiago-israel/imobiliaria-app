@@ -18,9 +18,18 @@ public class ImovelRepository extends BaseRepository<Imovel> {
     public List<Imovel> filtrarImoveis(Filtro filtro) {
         List<Imovel> imoveis = Select.from(Imovel.class)
                 .where(
-                        Condition.prop("bairro").like("%"+filtro.localidade+"%"),
+                        Condition.prop("bairro").like("%" + filtro.localidade + "%"),
                         Condition.prop("quartos").eq(filtro.quantidadeQuartos),
-                        Condition.prop("preco").lt(filtro.preco+1)
+                        Condition.prop("preco").lt(filtro.preco + 1),
+                        Condition.prop("financiado").eq(0)
+                ).list();
+        return imoveis;
+    }
+
+    public List<Imovel> buscarImoveisDisponiveisParaFinanciamento() {
+        List<Imovel> imoveis = Select.from(Imovel.class)
+                .where(
+                        Condition.prop("financiado").eq(0)
                 ).list();
         return imoveis;
     }

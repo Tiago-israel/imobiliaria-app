@@ -1,14 +1,20 @@
 package com.br.imobiliaria.models;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Cliente extends SugarRecord<Cliente> implements Serializable{
 
+    @Ignore
+    private String idStr;
     private String nome;
     private String email;
     private String telefone;
+    @Ignore
+    private List<Imovel>imoveis;
 
     public Cliente() {
 
@@ -45,6 +51,14 @@ public class Cliente extends SugarRecord<Cliente> implements Serializable{
         this.telefone = telefone;
     }
 
+    public List<Imovel> getImoveis() {
+        return imoveis;
+    }
+
+    public void setImoveis(List<Imovel> imoveis) {
+        this.imoveis = imoveis;
+    }
+
     @Override
     public String toString() {
         return
@@ -53,5 +67,11 @@ public class Cliente extends SugarRecord<Cliente> implements Serializable{
                 ", telefone: '" + telefone + '\'';
     }
 
+    public String getIdStr() {
+        return idStr;
+    }
 
+    public void setIdStr(String idStr) {
+        this.idStr = idStr;
+    }
 }

@@ -16,6 +16,7 @@ import com.br.imobiliaria.DetalhesImovelActivity;
 import com.br.imobiliaria.R;
 import com.br.imobiliaria.models.Foto;
 import com.br.imobiliaria.models.Imovel;
+import com.br.imobiliaria.utils.CalculoValorImovel;
 import com.br.imobiliaria.utils.TratamentoImagem;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
 
     private Context context;
     private List<Imovel> imoveis;
-    private TextView nome, bairro, valor, detalhes;
+    private TextView nome, bairro, valor;
     private ImageView capa;
     LinearLayout linearLayout;
     private Imovel imovel;
@@ -52,6 +53,7 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
                 imovel = imoveis.get(position);
                 Intent intent = new Intent(context, DetalhesImovelActivity.class);
                 imovel.setFotos(tratarListaImagens(imovel.getFotos()));
+                imovel.setIdString(String.valueOf(imovel.getId()));
                 intent.putExtra("imovel", imovel);
                 context.startActivity(intent);
             }
@@ -63,7 +65,7 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
     private void carregarLabels(Imovel imovel) {
         this.nome.setText(imovel.getNome());
         this.bairro.setText("Localização: " + imovel.getBairro());
-        this.valor.setText("R$ " + String.valueOf(imovel.getPreco()));
+        this.valor.setText("R$ " + CalculoValorImovel.formatarValor(imovel.getPreco()));
         this.capa.setImageBitmap(TratamentoImagem.convertArrayBytesToBitMapImage(imovel.obterFotoPrincipal().getArquivo()));
     }
 
@@ -73,7 +75,6 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
         this.bairro = view.findViewById(R.id.listAdBairro);
         this.valor = view.findViewById(R.id.listAdValor);
         this.capa = view.findViewById(R.id.listAdImage);
-        this.detalhes = view.findViewById(R.id.listAdDetalhes);
         this.linearLayout = view.findViewById(R.id.linearLayout_adapter);
     }
 

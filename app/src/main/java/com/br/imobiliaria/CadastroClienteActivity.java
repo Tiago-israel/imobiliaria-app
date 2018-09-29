@@ -8,17 +8,27 @@ import android.widget.Toast;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
 import com.br.imobiliaria.models.Cliente;
+import com.br.imobiliaria.models.Financiamento;
+import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.repositories.ClienteRepository;
+import com.br.imobiliaria.repositories.FinanciamentoRepository;
+import com.br.imobiliaria.repositories.ImovelRepository;
 
 public class CadastroClienteActivity extends AppCompatActivity implements BaseActivity {
 
     private EditText nome, email, telefone;
+    private Imovel imovel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_cliente);
         this.binding();
+
+        try {
+            this.imovel = (Imovel) getIntent().getExtras().get("imovel");
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -61,13 +71,21 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
         return campo.getText().toString().trim();
     }
 
-    public void gravar(View view){
-        if(this.validarCamposObrigatorios()){
-            Cliente cliente = new Cliente(this.extrairTextoEditText(this.nome),this.extrairTextoEditText(this.email),this.extrairTextoEditText(this.telefone));
-            ClienteRepository.getInstance().save(cliente);
-            this.finish();
-        }else{
-            Toast.makeText(this, "ERRO", Toast.LENGTH_SHORT).show();
+    public void gravar(View view) {
+        if (this.validarCamposObrigatorios()) {
+            if (!ClienteRepository.getInstance().verificarExistenciaEmail(extrairTextoEditText(email))) {
+                Cliente cliente = new Cliente(this.extrairTextoEditText(this.nome), this.extrairTextoEditText(this.email), this.extrairTextoEditText(this.telefone));
+                ClienteRepository.getInstance().save(cliente);
+                this.imovel.setFinanciado(1);
+                this.imovel.setId(Long.parseLong(this.imovel.getIdString()));
+                ImovelRepository.getInstance().save(this.imovel);
+                Financiamento financiamento = new Financiamento(cliente, imovel, getIntent().getIntExtra("parcelas", 3));
+                FinanciamentoRepository.getInstance().save(financiamento);
+                Toast.makeText(this, "Imóvel reservado com sucesso!", Toast.LENGTH_SHORT).show();
+                this.finish();
+            }else{
+                email.setError("Email já cadastrado");
+            }
         }
     }
 }

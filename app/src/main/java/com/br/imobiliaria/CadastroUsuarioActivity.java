@@ -8,6 +8,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
+import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.models.Usuario;
 import com.br.imobiliaria.repositories.UsuarioRepository;
 import com.orm.query.Condition;
@@ -18,12 +19,14 @@ import java.util.List;
 public class CadastroUsuarioActivity extends AppCompatActivity implements BaseActivity {
 
     private EditText nome, login, senha, confirmSenha;
+    private Imovel imovel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_usuario);
         this.binding();
+
     }
 
     @Override

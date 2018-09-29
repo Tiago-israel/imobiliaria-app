@@ -176,15 +176,19 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
     public void salvarImovel(View view) {
         try {
             if (this.validarCamposObrigatorios()) {
-                Imovel imovel = new Imovel(extrairTextoEditText(nome), tratarValorComMascara(extrairTextoEditText(preco)), extrairTextoEditText(bairro), Integer.parseInt(extrairTextoEditText(quartos)), extrairTextoEditText(descricao));
-                ImovelRepository.getInstance().save(imovel);
-                for (Foto foto : this.fotos) {
-                    foto.setImovel(imovel);
-                    FotoRepository.getInstance().save(foto);
+                if (this.fotos.size() == 4) {
+                    Imovel imovel = new Imovel(extrairTextoEditText(nome), tratarValorComMascara(extrairTextoEditText(preco)), extrairTextoEditText(bairro), Integer.parseInt(extrairTextoEditText(quartos)), extrairTextoEditText(descricao));
+                    ImovelRepository.getInstance().save(imovel);
+                    for (Foto foto : this.fotos) {
+                        foto.setImovel(imovel);
+                        FotoRepository.getInstance().save(foto);
+                    }
+                    Toast.makeText(this, "Imóvel salvo com sucesso!", Toast.LENGTH_SHORT).show();
+                    setResult(ResultCode.IMOVEL_CADASTRADO_SUCESSO);
+                    this.finish();
+                }else{
+                    Toast.makeText(this,"Por favor preencha todas as imagens",Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(this, "Imóvel salvo com sucesso!", Toast.LENGTH_SHORT).show();
-                setResult(ResultCode.IMOVEL_CADASTRADO_SUCESSO);
-                this.finish();
             }
         } catch (Exception ex) {
             Toast.makeText(this, "Ocorreu um erro inesperado! tente novamente", Toast.LENGTH_SHORT).show();

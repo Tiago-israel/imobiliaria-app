@@ -53,6 +53,12 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         this.configurarListView(new ArrayList<Imovel>());
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        this.configurarListView(new ArrayList<Imovel>());
+    }
+
     public void Filtrar(View view) {
         Filtro filtro = new Filtro(Integer.parseInt(quartos.getText().toString()), Double.parseDouble(valorEscolhido.getText().toString()), extrairTextoEditText(filtroLocalidade));
         List<Imovel> imovels = ImovelRepository.getInstance().filtrarImoveis(filtro);
@@ -186,7 +192,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
 
     private void configurarListView(List<Imovel> imoveis) {
         if (imoveis.size() == 0) {
-            imoveis = tratarListaImoveis(ImovelRepository.getInstance().findAll());
+            imoveis = tratarListaImoveis(ImovelRepository.getInstance(). buscarImoveisDisponiveisParaFinanciamento());
         }
         for (Imovel imovel : imoveis) {
             imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));

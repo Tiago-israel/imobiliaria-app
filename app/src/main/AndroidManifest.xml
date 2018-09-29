@@ -50,7 +50,8 @@
             android:name=".CadastroImovelActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ListagemClientesActivity" />
-        <activity android:name=".CadastroTaxaActivity"></activity>
+        <activity android:name=".CadastroTaxaActivity" />
+        <activity android:name=".DetalhesImovelActivity"></activity>
     </application>
 
 </manifest>

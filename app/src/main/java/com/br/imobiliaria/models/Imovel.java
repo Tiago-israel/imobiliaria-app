@@ -9,7 +9,8 @@ import java.io.Serializable;
 
 public class Imovel extends SugarRecord<Imovel> implements Serializable {
 
-
+    @Ignore
+    private String idString;
     private String nome;
     private Double preco;
     private String bairro;
@@ -85,6 +86,14 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable {
 
     public void setQuartos(Integer quartos) {
         this.quartos = quartos;
+    }
+
+    public String getIdString() {
+        return idString;
+    }
+
+    public void setIdString(String idString) {
+        this.idString = idString;
     }
 
     public Foto obterFotoPrincipal() {

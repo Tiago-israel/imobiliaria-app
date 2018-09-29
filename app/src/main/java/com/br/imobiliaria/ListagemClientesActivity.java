@@ -8,7 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.br.imobiliaria.models.Cliente;
+import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.repositories.ClienteRepository;
+
+import java.util.List;
 
 public class ListagemClientesActivity extends AppCompatActivity {
 
@@ -34,4 +37,6 @@ public class ListagemClientesActivity extends AppCompatActivity {
         ArrayAdapter<Cliente> lista = new ArrayAdapter<Cliente>(this, android.R.layout.simple_list_item_1, ClienteRepository.getInstance().findAll());
         listViewClientes.setAdapter(lista);
     }
+
+
 }

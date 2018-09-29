@@ -38,7 +38,7 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
 
     @NonNull
     @Override
-    public View getView(final int  position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         this.imovel = this.imoveis.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_imoveis_adapter, null);
@@ -51,6 +51,7 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
             public void onClick(View view) {
                 imovel = imoveis.get(position);
                 Intent intent = new Intent(context, DetalhesImovelActivity.class);
+                imovel.setFotos(tratarListaImagens(imovel.getFotos()));
                 intent.putExtra("imovel", imovel);
                 context.startActivity(intent);
             }
@@ -74,6 +75,13 @@ public class ListaImovelAdapter extends ArrayAdapter<Imovel> {
         this.capa = view.findViewById(R.id.listAdImage);
         this.detalhes = view.findViewById(R.id.listAdDetalhes);
         this.linearLayout = view.findViewById(R.id.linearLayout_adapter);
+    }
+
+    private List<Foto> tratarListaImagens(List<Foto> fotos) {
+        for (Foto foto : fotos) {
+            foto.setIdAux(String.valueOf(foto.getId()));
+        }
+        return fotos;
     }
 
 

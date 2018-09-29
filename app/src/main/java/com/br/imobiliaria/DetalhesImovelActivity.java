@@ -1,11 +1,14 @@
 package com.br.imobiliaria;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import com.br.imobiliaria.constants.RequestCode;
 import com.br.imobiliaria.models.Foto;
 import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.utils.TratamentoImagem;
@@ -21,25 +24,30 @@ import java.util.List;
 public class DetalhesImovelActivity extends AppCompatActivity {
 
     private SliderLayout slideImagens;
-    private TextView nomeImovel, preco, localidade, descricao,quartos;
-
+    private TextView nomeImovel, preco, localidade, descricao, quartos;
+    private Imovel imovel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_imovel);
         this.binding();
-        Imovel imovel = (Imovel) getIntent().getExtras().get("imovel");
+        this.imovel = (Imovel) getIntent().getExtras().get("imovel");
 
         this.carregarSlide(imovel.getFotos());
         this.carregarLabels(imovel);
     }
 
 
+    public void financiarImovel(View view) {
+        Intent intent = new Intent(this,SimulacaoFinanciamentoActivity.class);
+        intent.putExtra("imovel",this.imovel);
+        startActivityForResult(intent, RequestCode.FINANCIAMENTO);
+    }
+
     private void carregarSlide(List<Foto> fotos) {
         for (Foto foto : fotos) {
-            int cont =  Calendar.getInstance().get(Calendar.MILLISECOND);
             File filesDir = this.getFilesDir();
-            File imageFile = new File(filesDir, cont + ".jpg");
+            File imageFile = new File(filesDir, foto.getIdAux() + ".jpg");
             OutputStream os;
             try {
                 os = new FileOutputStream(imageFile);

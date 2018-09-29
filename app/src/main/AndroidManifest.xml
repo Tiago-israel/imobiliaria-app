@@ -51,7 +51,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ListagemClientesActivity" />
         <activity android:name=".CadastroTaxaActivity" />
-        <activity android:name=".DetalhesImovelActivity"></activity>
+        <activity android:name=".DetalhesImovelActivity" />
+        <activity android:name=".SimulacaoFinanciamentoActivity"></activity>
     </application>
 
 </manifest>

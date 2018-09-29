@@ -7,5 +7,6 @@ public class RequestCode {
     public static final int CAD_VENDEDOR = 4;
     public static final int LST_CLIENTE = 5;
     public static final int CAD_TAXAS = 6;
+    public static final int FINANCIAMENTO = 7;
 
 }

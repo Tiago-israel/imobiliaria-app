@@ -186,7 +186,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
 
     private void configurarListView(List<Imovel> imoveis) {
         if (imoveis.size() == 0) {
-            imoveis = ImovelRepository.getInstance().findAll();
+            imoveis = tratarListaImoveis(ImovelRepository.getInstance().findAll());
         }
         for (Imovel imovel : imoveis) {
             imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
@@ -206,5 +206,12 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
             this.novoVendedor.setVisible(false);
             cadastrarTaxas.setVisible(false);
         }
+    }
+
+    private List<Imovel> tratarListaImoveis(List<Imovel>imoveis){
+        for (Imovel imovel : imoveis){
+            imovel.setIdString(String.valueOf(imovel.getId()));
+        }
+        return imoveis;
     }
 }

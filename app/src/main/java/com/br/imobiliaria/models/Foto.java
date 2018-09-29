@@ -5,13 +5,13 @@ import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
 
-public class Foto extends SugarRecord<Foto> implements Serializable{
+public class Foto extends SugarRecord<Foto> implements Serializable {
 
     private String arquivo;
     private int isMain = 0;
     private Imovel imovel;
     @Ignore
-    private Long idAux;
+    private String idAux;
 
     public Foto() {
     }
@@ -40,7 +40,11 @@ public class Foto extends SugarRecord<Foto> implements Serializable{
         this.imovel = imovel;
     }
 
-    public Long getIdAux() {
-        return this.id;
+    public String getIdAux() {
+        return this.idAux;
+    }
+
+    public void setIdAux(String idAux) {
+        this.idAux = idAux;
     }
 }

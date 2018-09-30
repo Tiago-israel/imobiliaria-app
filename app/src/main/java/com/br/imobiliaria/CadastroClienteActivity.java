@@ -3,7 +3,11 @@ package com.br.imobiliaria;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.br.imobiliaria.Interfaces.BaseActivity;
@@ -14,10 +18,16 @@ import com.br.imobiliaria.repositories.ClienteRepository;
 import com.br.imobiliaria.repositories.FinanciamentoRepository;
 import com.br.imobiliaria.repositories.ImovelRepository;
 
+import java.util.List;
+
 public class CadastroClienteActivity extends AppCompatActivity implements BaseActivity {
 
     private EditText nome, email, telefone;
     private Imovel imovel;
+    private LinearLayout cadCliente, selectCliente;
+    private Spinner spinnerCliente;
+    private ImageView imgNovoCliente, imgHide;
+    private List<Cliente> clientes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +39,10 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
             this.imovel = (Imovel) getIntent().getExtras().get("imovel");
         } catch (Exception e) {
         }
+
+        this.cadCliente.setVisibility(View.GONE);
+        this.imgHide.setVisibility(View.GONE);
+        this.popularSpinnerPessoas();
     }
 
     @Override
@@ -36,6 +50,31 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
         this.nome = findViewById(R.id.cadClienteNome);
         this.email = findViewById(R.id.cadClienteEmail);
         this.telefone = findViewById(R.id.cadClienteTelefone);
+        this.cadCliente = findViewById(R.id.layoutCadCliente);
+        this.selectCliente = findViewById(R.id.layouSelectCliente);
+        this.spinnerCliente = findViewById(R.id.spinnerClientes);
+        this.imgNovoCliente = findViewById(R.id.imgNovoCliente);
+        this.imgHide = findViewById(R.id.imgHide);
+    }
+
+    public void novoCliente(View view) {
+        this.selectCliente.setVisibility(View.GONE);
+        this.cadCliente.setVisibility(View.VISIBLE);
+        this.imgNovoCliente.setVisibility(View.GONE);
+        this.imgHide.setVisibility(View.VISIBLE);
+    }
+
+    public void escolherClienteSelect(View view) {
+        this.selectCliente.setVisibility(View.VISIBLE);
+        this.cadCliente.setVisibility(View.GONE);
+        this.imgNovoCliente.setVisibility(View.VISIBLE);
+        this.imgHide.setVisibility(View.GONE);
+    }
+
+    private void popularSpinnerPessoas() {
+        this.clientes = ClienteRepository.getInstance().findAll();
+        ArrayAdapter<Cliente> clienteArrayAdapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_list_item_1, clientes);
+        spinnerCliente.setAdapter(clienteArrayAdapter);
     }
 
     @Override
@@ -71,6 +110,18 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
         return campo.getText().toString().trim();
     }
 
+    public void gravarClienteCadastrado(View view) {
+        Cliente cliente = (Cliente) spinnerCliente.getSelectedItem();
+        ClienteRepository.getInstance().save(cliente);
+        this.imovel.setFinanciado(1);
+        this.imovel.setId(Long.parseLong(this.imovel.getIdString()));
+        ImovelRepository.getInstance().save(this.imovel);
+        Financiamento financiamento = new Financiamento(cliente, imovel, getIntent().getIntExtra("parcelas", 3));
+        FinanciamentoRepository.getInstance().save(financiamento);
+        Toast.makeText(this, "Imóvel reservado com sucesso!", Toast.LENGTH_SHORT).show();
+        this.finish();
+    }
+
     public void gravar(View view) {
         if (this.validarCamposObrigatorios()) {
             if (!ClienteRepository.getInstance().verificarExistenciaEmail(extrairTextoEditText(email))) {
@@ -83,7 +134,7 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
                 FinanciamentoRepository.getInstance().save(financiamento);
                 Toast.makeText(this, "Imóvel reservado com sucesso!", Toast.LENGTH_SHORT).show();
                 this.finish();
-            }else{
+            } else {
                 email.setError("Email já cadastrado");
             }
         }

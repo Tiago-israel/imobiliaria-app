@@ -6,7 +6,7 @@ import com.orm.dsl.Ignore;
 import java.io.Serializable;
 import java.util.List;
 
-public class Cliente extends SugarRecord<Cliente> implements Serializable{
+public class Cliente extends SugarRecord<Cliente> implements Serializable {
 
     @Ignore
     private String idStr;
@@ -14,7 +14,7 @@ public class Cliente extends SugarRecord<Cliente> implements Serializable{
     private String email;
     private String telefone;
     @Ignore
-    private List<Imovel>imoveis;
+    private List<Imovel> imoveis;
 
     public Cliente() {
 
@@ -61,10 +61,7 @@ public class Cliente extends SugarRecord<Cliente> implements Serializable{
 
     @Override
     public String toString() {
-        return
-                "nome: '" + nome + '\'' +
-                ", email: '" + email + '\'' +
-                ", telefone: '" + telefone + '\'';
+        return "Nome: " + nome + " email: " + email;
     }
 
     public String getIdStr() {

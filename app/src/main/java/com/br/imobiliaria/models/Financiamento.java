@@ -1,5 +1,6 @@
 package com.br.imobiliaria.models;
 
+import com.br.imobiliaria.utils.CalculoValorImovel;
 import com.orm.SugarRecord;
 
 import java.io.Serializable;
@@ -45,6 +46,6 @@ public class Financiamento extends SugarRecord<Financiamento> implements Seriali
 
     @Override
     public String toString() {
-        return "Imóvel: " + imovel.getNome() + " | Valor: R$ " + imovel.getPreco();
+        return "Imóvel: " + imovel.getNome() + " | Valor: R$ " + CalculoValorImovel.formatarValor(imovel.getPreco());
     }
 }

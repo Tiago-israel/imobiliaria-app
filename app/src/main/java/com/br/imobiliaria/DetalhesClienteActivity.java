@@ -45,7 +45,7 @@ public class DetalhesClienteActivity extends AppCompatActivity {
                 Imovel imovel = financiamento.getImovel();
                 imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
                 for (Foto foto:imovel.getFotos()){
-                    foto.setIdAux(String.valueOf(imovel.getId()));
+                    foto.setIdAux(String.valueOf(foto.getId()));
                 }
                 imovel.setIdString(String.valueOf(imovel.getId()));
                 Intent intent = new Intent(getApplicationContext(), DetalhesImovelActivity.class);

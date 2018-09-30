@@ -19,55 +19,107 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imgNovoCliente"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="Nome*"
-            android:textStyle="bold" />
+            android:onClick="novoCliente"
+            app:srcCompat="@drawable/add" />
 
-        <EditText
-            android:id="@+id/cadClienteNome"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imgHide"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            android:onClick="escolherClienteSelect"
+            app:srcCompat="@drawable/negative" />
 
-        <TextView
-            android:id="@+id/textView4"
+        <LinearLayout
+            android:id="@+id/layouSelectCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email*"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/cadClienteEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clientes"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Telefone*"
-            android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerClientes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/cadClienteTelefone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone" />
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#c0392b"
+                android:onClick="gravarClienteCadastrado"
+                android:text="GRAVAR"
+                android:textColor="@android:color/background_light"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/button3"
+        <LinearLayout
+            android:id="@+id/layoutCadCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#c0392b"
-            android:onClick="gravar"
-            android:text="gravar"
-            android:textColor="@android:color/background_light" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome*"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/cadClienteNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email*"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/cadClienteEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Telefone*"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/cadClienteTelefone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#c0392b"
+                android:onClick="gravar"
+                android:text="gravar"
+                android:textColor="@android:color/background_light"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

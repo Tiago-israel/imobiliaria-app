@@ -42,18 +42,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".CadastroUsuarioActivity" />
-        <activity android:name=".ListagemImoveisActivity" />
-        <activity android:name=".CadastroClienteActivity" />
+        <activity android:name=".LoginActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".CadastroUsuarioActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".ListagemImoveisActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".CadastroClienteActivity"  android:screenOrientation="portrait"/>
         <activity
             android:name=".CadastroImovelActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ListagemClientesActivity" />
-        <activity android:name=".CadastroTaxaActivity" />
-        <activity android:name=".DetalhesImovelActivity" />
-        <activity android:name=".SimulacaoFinanciamentoActivity" />
-        <activity android:name=".DetalhesClienteActivity"></activity>
+        <activity android:name=".ListagemClientesActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".CadastroTaxaActivity" android:screenOrientation="portrait" />
+        <activity android:name=".DetalhesImovelActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".SimulacaoFinanciamentoActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".DetalhesClienteActivity"  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

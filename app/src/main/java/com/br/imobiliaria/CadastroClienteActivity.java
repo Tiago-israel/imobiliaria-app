@@ -75,8 +75,17 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
 
     private void popularSpinnerPessoas() {
         this.clientes = ClienteRepository.getInstance().findAll();
-        ArrayAdapter<Cliente> clienteArrayAdapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_list_item_1, clientes);
-        spinnerCliente.setAdapter(clienteArrayAdapter);
+        if(this.clientes.size() > 0){
+            ArrayAdapter<Cliente> clienteArrayAdapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_list_item_1, clientes);
+            spinnerCliente.setAdapter(clienteArrayAdapter);
+            selectCliente.setVisibility(View.VISIBLE);
+        }else{
+            selectCliente.setVisibility(View.GONE);
+            imgHide.setVisibility(View.GONE);
+            imgNovoCliente.setVisibility(View.GONE);
+            cadCliente.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override

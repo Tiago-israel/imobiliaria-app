@@ -24,6 +24,7 @@ public class SimulacaoFinanciamentoActivity extends AppCompatActivity {
     Spinner parcelas;
     TextView valor, qtdParcelas, valorParcelado;
     private Imovel imovel;
+    private EditText valorEntrada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class SimulacaoFinanciamentoActivity extends AppCompatActivity {
     public void reservar(View view) {
         Intent intent = new Intent(this, CadastroClienteActivity.class);
         intent.putExtra("parcelas", Integer.parseInt(qtdParcelas.getText().toString().replace("X", "")));
+        intent.putExtra("valorEntrada",Double.parseDouble(valorEntrada.getText().toString().replace(".","").replace(",",".")));
         intent.putExtra("imovel", this.imovel);
         startActivityForResult(intent, RequestCode.CAD_CLIENTE);
     }
@@ -47,13 +49,14 @@ public class SimulacaoFinanciamentoActivity extends AppCompatActivity {
     public void calcularValorParcerla(View view) {
         int parcela = (Integer) this.parcelas.getSelectedItem();
         this.qtdParcelas.setText(String.valueOf(parcela) + "X");
-        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(parcela, imovel.getPreco())));
+        double entrada = Double.parseDouble(valorEntrada.getText().toString().replace(".","").replace(",","."));
+        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(parcela, imovel.getPreco(),entrada)));
     }
 
     private void carregarLabels(Imovel imovel) {
         this.valor.setText("R$ " + CalculoValorImovel.formatarValor(imovel.getPreco()));
         this.qtdParcelas.setText(String.valueOf(3) + "X");
-        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(3, imovel.getPreco())));
+        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(3, imovel.getPreco(),0)));
     }
 
     private void binding() {
@@ -61,6 +64,7 @@ public class SimulacaoFinanciamentoActivity extends AppCompatActivity {
         this.qtdParcelas = findViewById(R.id.financiamentoQtdPaecela);
         this.valorParcelado = findViewById(R.id.financiamentoValorParcelado);
         this.parcelas = findViewById(R.id.financiamentoParcelas);
+        this.valorEntrada = findViewById(R.id.valorEntrada);
     }
 
     private void configurarSpinner() {

@@ -102,12 +102,12 @@
                 android:text="Telefone*"
                 android:textStyle="bold" />
 
-            <EditText
+            <com.santalu.widget.MaskEditText
                 android:id="@+id/cadClienteTelefone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="phone" />
+                android:inputType="number"
+                app:met_mask="(##) ####-####" />
 
             <Button
                 android:id="@+id/button3"

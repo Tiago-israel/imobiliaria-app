@@ -32,10 +32,11 @@ import java.util.List;
 public class DetalhesImovelActivity extends AppCompatActivity {
 
     private SliderLayout slideImagens;
-    private TextView nomeImovel, preco, localidade, descricao, quartos,parcelas;
+    private TextView nomeImovel, preco, localidade, descricao, quartos,parcelas,detalhesValorEntrada;
     private Imovel imovel;
     private Button btnSimularReserva, btnCancelarReserva;
-    private LinearLayout layoutParcelas;
+    private LinearLayout layoutParcelas,layoutValorEntrada;
+    private double valorEntrada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +45,15 @@ public class DetalhesImovelActivity extends AppCompatActivity {
         this.binding();
         this.imovel = (Imovel) getIntent().getExtras().get("imovel");
         boolean ehDetalhesImovelCliente = false;
+        try {
+            valorEntrada = getIntent().getDoubleExtra("valorEntrada",0);
+        }catch (Exception ex){
+
+        }
+
         Integer parcelas = 3;
         try {
+
             ehDetalhesImovelCliente = getIntent().getExtras().getBoolean("detalheImovelCliente");
             parcelas = getIntent().getIntExtra("parcelas",3);
         } catch (Exception e) {
@@ -54,10 +62,16 @@ public class DetalhesImovelActivity extends AppCompatActivity {
 
         if (ehDetalhesImovelCliente) {
             this.btnSimularReserva.setVisibility(View.GONE);
-            this.parcelas.setText(String.valueOf(parcelas)+"X de R$"+ CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(parcelas,imovel.getPreco())));
+            if(valorEntrada > 0){
+                this.detalhesValorEntrada.setText(String.valueOf(this.valorEntrada));
+            }else{
+                this.layoutValorEntrada.setVisibility(View.GONE);
+            }
+            this.parcelas.setText(String.valueOf(parcelas)+"X de R$"+ CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(parcelas,imovel.getPreco(),valorEntrada)));
         } else {
             this.btnCancelarReserva.setVisibility(View.GONE);
             this.layoutParcelas.setVisibility(View.GONE);
+            this.layoutValorEntrada.setVisibility(View.GONE);
         }
 
         this.carregarSlide(imovel.getFotos());
@@ -129,6 +143,8 @@ public class DetalhesImovelActivity extends AppCompatActivity {
         this.btnCancelarReserva = findViewById(R.id.btnCancelarReserva);
         this.btnSimularReserva = findViewById(R.id.btnSimularReserva);
         this.layoutParcelas = findViewById(R.id.layoutParcelas);
+        this.layoutValorEntrada = findViewById(R.id.layoutValorEntrada);
         this.parcelas = findViewById(R.id.parcelas);
+        this.detalhesValorEntrada = findViewById(R.id.detalhesValorEntrada);
     }
 }

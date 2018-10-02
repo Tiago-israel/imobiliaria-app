@@ -28,6 +28,7 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
     private Spinner spinnerCliente;
     private ImageView imgNovoCliente, imgHide;
     private List<Cliente> clientes;
+    private double valorEntrada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
 
         try {
             this.imovel = (Imovel) getIntent().getExtras().get("imovel");
+            this.valorEntrada = getIntent().getDoubleExtra("valorEntrada",0);
         } catch (Exception e) {
         }
 
@@ -116,7 +118,7 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
         this.imovel.setFinanciado(1);
         this.imovel.setId(Long.parseLong(this.imovel.getIdString()));
         ImovelRepository.getInstance().save(this.imovel);
-        Financiamento financiamento = new Financiamento(cliente, imovel, getIntent().getIntExtra("parcelas", 3));
+        Financiamento financiamento = new Financiamento(cliente, imovel, getIntent().getIntExtra("parcelas", 3),valorEntrada);
         FinanciamentoRepository.getInstance().save(financiamento);
         Toast.makeText(this, "Imóvel reservado com sucesso!", Toast.LENGTH_SHORT).show();
         this.finish();
@@ -130,7 +132,7 @@ public class CadastroClienteActivity extends AppCompatActivity implements BaseAc
                 this.imovel.setFinanciado(1);
                 this.imovel.setId(Long.parseLong(this.imovel.getIdString()));
                 ImovelRepository.getInstance().save(this.imovel);
-                Financiamento financiamento = new Financiamento(cliente, imovel, getIntent().getIntExtra("parcelas", 3));
+                Financiamento financiamento = new Financiamento(cliente, imovel, getIntent().getIntExtra("parcelas", 3),valorEntrada);
                 FinanciamentoRepository.getInstance().save(financiamento);
                 Toast.makeText(this, "Imóvel reservado com sucesso!", Toast.LENGTH_SHORT).show();
                 this.finish();

@@ -51,6 +51,7 @@ public class DetalhesClienteActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), DetalhesImovelActivity.class);
                 intent.putExtra("imovel", imovel);
                 intent.putExtra("parcelas",financiamento.getParcelas());
+                intent.putExtra("valorEntrada",financiamento.getEntrada());
                 intent.putExtra("detalheImovelCliente", true);
                 startActivityForResult(intent, RequestCode.DETALHES_IMOVEL_CLIENTE);
             }

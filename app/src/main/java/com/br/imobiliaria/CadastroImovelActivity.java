@@ -33,7 +33,7 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
 
     private EditText nome, preco, bairro, descricao, quartos;
     private ImageView foto1, foto2, foto3, foto4;
-    private List<Foto> fotos = new ArrayList<>(4);
+    private Foto[] fotos = new Foto[4];
     private final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
     private boolean isFoto1 = false, isFoto2 = false, isFoto3 = false, isFoto4 = false;
 
@@ -96,12 +96,9 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
 
     private void adicionarImagemListaFotos(int index, Foto foto) {
         try {
-            if (this.fotos.get(index) != null) {
-                this.fotos.remove(index);
-                this.fotos.add(index, foto);
-            }
+            this.fotos[index] = foto;
         } catch (Exception ex) {
-            this.fotos.add(index, foto);
+
         }
     }
 
@@ -176,7 +173,7 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
     public void salvarImovel(View view) {
         try {
             if (this.validarCamposObrigatorios()) {
-                if (this.fotos.size() == 4) {
+                if (this.fotos.length == 4) {
                     Imovel imovel = new Imovel(extrairTextoEditText(nome), tratarValorComMascara(extrairTextoEditText(preco)), extrairTextoEditText(bairro), Integer.parseInt(extrairTextoEditText(quartos)), extrairTextoEditText(descricao));
                     ImovelRepository.getInstance().save(imovel);
                     for (Foto foto : this.fotos) {
@@ -186,8 +183,8 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
                     Toast.makeText(this, "Imóvel salvo com sucesso!", Toast.LENGTH_SHORT).show();
                     setResult(ResultCode.IMOVEL_CADASTRADO_SUCESSO);
                     this.finish();
-                }else{
-                    Toast.makeText(this,"Por favor preencha todas as imagens",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Por favor preencha todas as imagens", Toast.LENGTH_LONG).show();
                 }
             }
         } catch (Exception ex) {

@@ -10,14 +10,16 @@ public class Financiamento extends SugarRecord<Financiamento> implements Seriali
     private Cliente cliente;
     private Imovel imovel;
     private int parcelas;
+    private double entrada;
 
     public Financiamento() {
     }
 
-    public Financiamento(Cliente cliente, Imovel imovel, int parcelas) {
+    public Financiamento(Cliente cliente, Imovel imovel, int parcelas,double entrada) {
         this.cliente = cliente;
         this.imovel = imovel;
         this.parcelas = parcelas;
+        this.entrada = entrada;
     }
 
     public Cliente getCliente() {
@@ -42,6 +44,14 @@ public class Financiamento extends SugarRecord<Financiamento> implements Seriali
 
     public void setParcelas(int parcelas) {
         this.parcelas = parcelas;
+    }
+
+    public double getEntrada() {
+        return entrada;
+    }
+
+    public void setEntrada(double entrada) {
+        this.entrada = entrada;
     }
 
     @Override

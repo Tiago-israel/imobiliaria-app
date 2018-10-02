@@ -39,9 +39,13 @@ public class SimulacaoFinanciamentoActivity extends AppCompatActivity {
     }
 
     public void reservar(View view) {
+        double entrada = 0.0;
+        if (!valorEntrada.getText().toString().isEmpty()){
+            entrada = Double.parseDouble(valorEntrada.getText().toString().replace(".", "").replace(",", "."));
+        }
         Intent intent = new Intent(this, CadastroClienteActivity.class);
         intent.putExtra("parcelas", Integer.parseInt(qtdParcelas.getText().toString().replace("X", "")));
-        intent.putExtra("valorEntrada",Double.parseDouble(valorEntrada.getText().toString().replace(".","").replace(",",".")));
+        intent.putExtra("valorEntrada", entrada);
         intent.putExtra("imovel", this.imovel);
         startActivityForResult(intent, RequestCode.CAD_CLIENTE);
     }
@@ -49,14 +53,17 @@ public class SimulacaoFinanciamentoActivity extends AppCompatActivity {
     public void calcularValorParcerla(View view) {
         int parcela = (Integer) this.parcelas.getSelectedItem();
         this.qtdParcelas.setText(String.valueOf(parcela) + "X");
-        double entrada = Double.parseDouble(valorEntrada.getText().toString().replace(".","").replace(",","."));
-        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(parcela, imovel.getPreco(),entrada)));
+        double entrada = 0.0;
+        if (!valorEntrada.getText().toString().isEmpty()){
+            entrada = Double.parseDouble(valorEntrada.getText().toString().replace(".", "").replace(",", "."));
+        }
+        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(parcela, imovel.getPreco(), entrada)));
     }
 
     private void carregarLabels(Imovel imovel) {
         this.valor.setText("R$ " + CalculoValorImovel.formatarValor(imovel.getPreco()));
         this.qtdParcelas.setText(String.valueOf(3) + "X");
-        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(3, imovel.getPreco(),0)));
+        this.valorParcelado.setText("R$ " + CalculoValorImovel.formatarValor(CalculoParcelas.calcularParcelas(3, imovel.getPreco(), 0)));
     }
 
     private void binding() {

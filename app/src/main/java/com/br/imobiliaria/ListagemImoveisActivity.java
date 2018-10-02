@@ -33,7 +33,7 @@ import java.util.List;
 public class ListagemImoveisActivity extends AppCompatActivity implements BaseActivity {
 
     private LinearLayout layoutFiltro;
-    private TextView quartos, valorEscolhido;
+    private TextView quartos, valorEscolhido,mensagemPesquisaVazia;
     private SeekBar preco;
     private EditText filtroLocalidade;
     private ListView listViewImoveis;
@@ -50,19 +50,30 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         this.preco.setMax(1000000);
         this.seekBarListener();
         this.valorEscolhido.setText("0");
-        this.configurarListView(new ArrayList<Imovel>());
+        this.mensagemPesquisaVazia.setVisibility(View.GONE);
+        this.configurarListView();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        this.configurarListView(new ArrayList<Imovel>());
+        this.configurarListView();
     }
 
     public void Filtrar(View view) {
         Filtro filtro = new Filtro(Integer.parseInt(quartos.getText().toString()), Double.parseDouble(valorEscolhido.getText().toString()), extrairTextoEditText(filtroLocalidade));
-        List<Imovel> imovels = ImovelRepository.getInstance().filtrarImoveis(filtro);
-        this.configurarListView(imovels);
+        List<Imovel> imoveis = ImovelRepository.getInstance().filtrarImoveis(filtro);
+        if(imoveis.size() == 0){
+            this.mensagemPesquisaVazia.setVisibility(View.VISIBLE);
+            this.listViewImoveis.setVisibility(View.GONE);
+        }else{
+            for (Imovel imovel : imoveis) {
+                imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
+            }
+            ListaImovelAdapter listaImovelAdapter = new ListaImovelAdapter(this, imoveis);
+            this.listViewImoveis.setAdapter(listaImovelAdapter);
+            this.listViewImoveis.setVisibility(View.VISIBLE);
+        }
     }
 
     public void mostrarEsconderFiltro(View view) {
@@ -153,7 +164,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case ResultCode.IMOVEL_CADASTRADO_SUCESSO:
-                this.configurarListView(new ArrayList<Imovel>());
+                this.configurarListView();
                 break;
             default:
                 break;
@@ -168,6 +179,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         this.preco = findViewById(R.id.seekBarPreco);
         this.filtroLocalidade = findViewById(R.id.filtroLocalidade);
         this.listViewImoveis = findViewById(R.id.listImoveis);
+        this.mensagemPesquisaVazia = findViewById(R.id.mensagemPesquisaVazia);
     }
 
     @Override
@@ -190,15 +202,21 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         return campo.getText().toString().trim();
     }
 
-    private void configurarListView(List<Imovel> imoveis) {
+    private void configurarListView() {
+        List<Imovel>  imoveis = tratarListaImoveis(ImovelRepository.getInstance(). buscarImoveisDisponiveisParaFinanciamento());
         if (imoveis.size() == 0) {
-            imoveis = tratarListaImoveis(ImovelRepository.getInstance(). buscarImoveisDisponiveisParaFinanciamento());
+            this.mensagemPesquisaVazia.setText("Nenhum imóvel cadastrado.");
+            this.mensagemPesquisaVazia.setVisibility(View.VISIBLE);
+            this.listViewImoveis.setVisibility(View.GONE);
+        }else{
+            for (Imovel imovel : imoveis) {
+                imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
+            }
+            ListaImovelAdapter listaImovelAdapter = new ListaImovelAdapter(this, imoveis);
+            this.listViewImoveis.setAdapter(listaImovelAdapter);
+            this.mensagemPesquisaVazia.setVisibility(View.GONE);
+            this.listViewImoveis.setVisibility(View.VISIBLE);
         }
-        for (Imovel imovel : imoveis) {
-            imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
-        }
-        ListaImovelAdapter listaImovelAdapter = new ListaImovelAdapter(this, imoveis);
-        this.listViewImoveis.setAdapter(listaImovelAdapter);
     }
 
     private void navegarParaActivity(Class clazz, int requestCode) {

@@ -158,6 +158,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <TextView
+            android:id="@+id/mensagemPesquisaVazia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opa, não encontramos nenhum imóvel com essas caracteristicas, altere o local ou os filtros"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

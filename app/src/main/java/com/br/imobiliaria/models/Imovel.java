@@ -35,7 +35,7 @@ public class Imovel extends SugarRecord<Imovel> implements Serializable {
 
     public Imovel(String nome, Double preco, String bairro, Integer quartos, String descricao, List<Foto> fotos) {
         this.nome = nome;
-        this.preco = preco;
+        this.preco = CalculoValorImovel.calcular(preco);
         this.bairro = bairro;
         this.quartos = quartos;
         this.descricao = descricao;

@@ -32,6 +32,9 @@ public class LoginActivity extends AppCompatActivity implements BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCode.LOGIN) {
+            finish();
+        }
     }
 
     public void autenticar(View view) {
@@ -39,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements BaseActivity {
             Usuario usuario = UsuarioRepository.getInstance().login(extrairTextoEditText(login), extrairTextoEditText(senha));
             if (usuario != null) {
                 this.configurarTextos();
-                GerenciadorPreferencias.salvarDadosUsuarioSharedPreference(usuario,this);
+                GerenciadorPreferencias.salvarDadosUsuarioSharedPreference(usuario, this);
                 Intent intent = new Intent(this, ListagemImoveisActivity.class);
                 intent.putExtra("UsuarioLogado", usuario);
                 startActivityForResult(intent, RequestCode.LOGIN);

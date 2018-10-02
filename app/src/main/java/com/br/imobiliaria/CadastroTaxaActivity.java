@@ -53,6 +53,7 @@ public class CadastroTaxaActivity extends AppCompatActivity implements BaseActiv
             imovel.setPreco(CalculoValorImovel.calcular(imovel.getPreco()));
             ImovelRepository.getInstance().save(imovel);
         }
+        Toast.makeText(this,"Taxas aplicadas com sucesso!",Toast.LENGTH_SHORT).show();
     }
 
     private void novaTaxa() {

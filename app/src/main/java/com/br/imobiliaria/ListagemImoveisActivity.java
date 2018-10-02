@@ -25,6 +25,8 @@ import com.br.imobiliaria.models.Foto;
 import com.br.imobiliaria.models.Imovel;
 import com.br.imobiliaria.repositories.FotoRepository;
 import com.br.imobiliaria.repositories.ImovelRepository;
+import com.br.imobiliaria.utils.CalculoParcelas;
+import com.br.imobiliaria.utils.CalculoValorImovel;
 import com.br.imobiliaria.utils.GerenciadorPreferencias;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ import java.util.List;
 public class ListagemImoveisActivity extends AppCompatActivity implements BaseActivity {
 
     private LinearLayout layoutFiltro;
-    private TextView quartos, valorEscolhido,mensagemPesquisaVazia;
+    private TextView quartos, valorEscolhido, mensagemPesquisaVazia, txtValorMax;
     private SeekBar preco;
     private EditText filtroLocalidade;
     private ListView listViewImoveis;
@@ -45,28 +47,44 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_litagem_imoveis);
         this.binding();
+
         this.quartos.setText("1");
         this.configurarLayoutFiltro();
-        this.preco.setMax(1000000);
+
+
+        this.configurarRangeFiltro();
+
         this.seekBarListener();
         this.valorEscolhido.setText("0");
         this.mensagemPesquisaVazia.setVisibility(View.GONE);
         this.configurarListView();
     }
 
+    private void configurarRangeFiltro(){
+        int valorMaximo = (int) ImovelRepository.getInstance().obterMaiorValorImovel(this);
+        if (valorMaximo > 0) {
+            this.preco.setMax(valorMaximo);
+            txtValorMax.setText(String.valueOf((valorMaximo)));
+        } else {
+            this.preco.setMax(1000000);
+            txtValorMax.setText(String.valueOf((1000000)));
+        }
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
         this.configurarListView();
+        this.configurarRangeFiltro();
     }
 
     public void Filtrar(View view) {
         Filtro filtro = new Filtro(Integer.parseInt(quartos.getText().toString()), Double.parseDouble(valorEscolhido.getText().toString()), extrairTextoEditText(filtroLocalidade));
         List<Imovel> imoveis = ImovelRepository.getInstance().filtrarImoveis(filtro);
-        if(imoveis.size() == 0){
+        if (imoveis.size() == 0) {
             this.mensagemPesquisaVazia.setVisibility(View.VISIBLE);
             this.listViewImoveis.setVisibility(View.GONE);
-        }else{
+        } else {
             for (Imovel imovel : imoveis) {
                 imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
             }
@@ -180,6 +198,7 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         this.filtroLocalidade = findViewById(R.id.filtroLocalidade);
         this.listViewImoveis = findViewById(R.id.listImoveis);
         this.mensagemPesquisaVazia = findViewById(R.id.mensagemPesquisaVazia);
+        this.txtValorMax = findViewById(R.id.txtValorMax);
     }
 
     @Override
@@ -203,12 +222,12 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
     }
 
     private void configurarListView() {
-        List<Imovel>  imoveis = tratarListaImoveis(ImovelRepository.getInstance(). buscarImoveisDisponiveisParaFinanciamento());
+        List<Imovel> imoveis = tratarListaImoveis(ImovelRepository.getInstance().buscarImoveisDisponiveisParaFinanciamento());
         if (imoveis.size() == 0) {
             this.mensagemPesquisaVazia.setText("Nenhum imóvel cadastrado.");
             this.mensagemPesquisaVazia.setVisibility(View.VISIBLE);
             this.listViewImoveis.setVisibility(View.GONE);
-        }else{
+        } else {
             for (Imovel imovel : imoveis) {
                 imovel.setFotos(FotoRepository.getInstance().buscarFotosPorImovel(imovel.getId()));
             }
@@ -232,8 +251,8 @@ public class ListagemImoveisActivity extends AppCompatActivity implements BaseAc
         }
     }
 
-    private List<Imovel> tratarListaImoveis(List<Imovel>imoveis){
-        for (Imovel imovel : imoveis){
+    private List<Imovel> tratarListaImoveis(List<Imovel> imoveis) {
+        for (Imovel imovel : imoveis) {
             imovel.setIdString(String.valueOf(imovel.getId()));
         }
         return imoveis;

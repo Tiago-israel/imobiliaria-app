@@ -120,6 +120,8 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
         campo.setError("O campo " + nomeCampo + " é obrigatório!");
     }
 
+
+
     @Override
     public boolean verificarCampoVazio(EditText campo) {
         return campo.getText().toString().trim().isEmpty();
@@ -170,10 +172,19 @@ public class CadastroImovelActivity extends AppCompatActivity implements BaseAct
         return Double.parseDouble(valorStr);
     }
 
+    private boolean validarFotos(){
+        for (Foto foto : this.fotos){
+            if(foto == null){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void salvarImovel(View view) {
         try {
             if (this.validarCamposObrigatorios()) {
-                if (this.fotos.length == 4) {
+                if (this.validarFotos()) {
                     Imovel imovel = new Imovel(extrairTextoEditText(nome), tratarValorComMascara(extrairTextoEditText(preco)), extrairTextoEditText(bairro), Integer.parseInt(extrairTextoEditText(quartos)), extrairTextoEditText(descricao));
                     ImovelRepository.getInstance().save(imovel);
                     for (Foto foto : this.fotos) {
